@@ -3,6 +3,7 @@
   "pluginId": "yucwiki-anime",
   "displayName": "长门有C 番组数据",
   "period": "2026H2",
+  "dataVersion": "2026H2-2026-11-04-5415e987",
   "updatedAt": "2026-11-04",
   "recordCount": 477,
   "source": "仓库内种子 data/source.json",

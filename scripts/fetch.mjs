@@ -148,12 +148,18 @@ async function main() {
   const bytes = Buffer.from(body, 'utf8')
   writeFileSync(join(dataDirectory, fileName), bytes)
 
+  const updatedAt = new Date().toISOString().slice(0, 10)
+  const shardHash = createHash('sha256').update(bytes).digest('hex')
+  // 数据快照版本 = 期号 + 更新日期 + 分片内容哈希短码：同一天重跑但内容变了，版本也必须变
+  const dataVersion = `${period}-${updatedAt}-${shardHash.slice(0, 8)}`
+
   const manifest = {
     formatVersion: 1,
     pluginId,
     displayName,
     period,
-    updatedAt: new Date().toISOString().slice(0, 10),
+    dataVersion,
+    updatedAt,
     recordCount: records.length,
     source: label,
     encoding: 'utf-8',
@@ -165,14 +171,32 @@ async function main() {
         file: fileName,
         fields,
         bytes: bytes.length,
-        sha256: createHash('sha256').update(bytes).digest('hex'),
+        sha256: shardHash,
         recordCount: records.length,
       },
     ],
   }
   writeFileSync(join(dataDirectory, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8')
+
+  // 市场页展示的「数据源版本」取自 plugin.json，必须与数据清单同源，否则装前装后看到的版本对不上。
+  // dataSourceVersion 是展示字段、不进签名载荷，所以这里改它不需要重签（见宿主 PLUGIN-SPEC.md §7.1）。
+  const pluginManifestPath = join(repositoryRoot, 'plugin.json')
+  const pluginManifest = JSON.parse(readFileSync(pluginManifestPath, 'utf8'))
+  if (pluginManifest.dataSourceVersion !== dataVersion) {
+    const next = {}
+    for (const [key, value] of Object.entries(pluginManifest)) {
+      if (key === 'dataSourceVersion') continue
+      next[key] = value
+      // 紧跟 minHostVersion，让三项版本信息在 plugin.json 里挨在一起
+      if (key === 'minHostVersion') next.dataSourceVersion = dataVersion
+    }
+    writeFileSync(pluginManifestPath, `${JSON.stringify(next, null, 2)}\n`, 'utf8')
+    console.log(`  plugin.json dataSourceVersion → ${dataVersion}（展示字段，不参与签名）`)
+  }
+
   console.log(`✔ ${displayName}：${String(records.length)} 条 / ${fileName} / ${String(bytes.length)} 字节`)
   console.log(`  数据来源：${label}`)
+  console.log(`  数据源版本：${dataVersion}`)
 }
 
 await main()

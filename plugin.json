@@ -5,6 +5,7 @@
   "version": "1.0.0",
   "apiVersion": "1.0.0",
   "minHostVersion": "2.5.0",
+  "dataSourceVersion": "2026H2-2026-11-04-5415e987",
   "description": "从 GitHub 数据源获取长门有C 番组数据、一键下载成工作表，并整理进你的番组数据库。",
   "author": "awujiana",
   "homepage": "https://github.com/awujiana/MBD-plugin-yucwiki",

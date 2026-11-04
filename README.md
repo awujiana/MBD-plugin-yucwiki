@@ -22,6 +22,10 @@
 ## 数据来源与期号
 
 - **当前期号**：`2026H2`，`477` 条，`updatedAt` 见 `data/manifest.json`。
+- **数据源版本**：`data/manifest.json` 的 `dataVersion`，由 `scripts/fetch.mjs` 按
+  「期号 + 更新日期 + 分片 sha256 前 8 位」生成，并自动写回 `plugin.json` 的
+  `dataSourceVersion`。插件市场「待确认 / 已安装」卡片上的「数据源 v…」就是它。
+  该字段属于展示信息、**不参与签名**：只更新数据时不必重签，也不必升 `version`。
 - **种子来源**：作者自建的 `Bangumi-Archive-Anime-Excel`（本地存档分片），筛出
   `开播日期 >= 2026-07-01` 的条目，再映射到 MBD 的 42 列标准表头。
   这不是上游站点的原始导出，是**可跑通的种子数据**；接上游时替换 `data/source.json`。
