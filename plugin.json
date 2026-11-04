@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "id": "yucwiki-anime",
+  "name": "长门有C 番组数据",
+  "version": "1.0.0",
+  "apiVersion": "1.0.0",
+  "minHostVersion": "2.5.0",
+  "description": "从 GitHub 数据源获取长门有C 番组数据、一键下载成工作表，并整理进你的番组数据库。",
+  "author": "awujiana",
+  "homepage": "https://github.com/awujiana/MBD-plugin-yucwiki",
+  "license": "AGPL-3.0",
+  "entry": "plugin.js",
+  "permissions": [
+    "sheet.read",
+    "sheet.write",
+    "data.read",
+    "data.write",
+    "net.fetch",
+    "storage",
+    "ui.toast",
+    "log"
+  ],
+  "network": [
+    "raw.githubusercontent.com"
+  ],
+  "features": [
+    {
+      "key": "download",
+      "name": "下载本期番组数据",
+      "description": "拉取本期番组数据并新建工作表"
+    },
+    {
+      "key": "merge",
+      "name": "整理进我的番组数据库",
+      "description": "按 Bangumi URL 去重合并到当前工作簿"
+    }
+  ],
+  "updatePolicy": "auto",
+  "checksum": {
+    "plugin.js": {
+      "sha256": "b74995777bb0ea8578fc8dfac05e2b6ec46d20fc6e84ac2f28546fdc37c02ecf",
+      "size": 5989
+    }
+  },
+  "signature": {
+    "algorithm": "ecdsa-p256-sha256",
+    "keyId": "awujiana-2026",
+    "value": "lim8P5ejxgsCgpLAZBa5IqZ0JWl1yJclYVdurHykzy86av/z6lszqPzGuWDQBau2SkDHmD2fWLbAsN8h91hyIQ=="
+  }
+}

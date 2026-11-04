@@ -1,0 +1,42 @@
+name: 同步数据源
+
+# 更新频率待定：首版只保留手动触发，接好上游 SOURCE_URL 后再加 schedule。
+on:
+  workflow_dispatch:
+    inputs:
+      source:
+        description: 上游数据 URL（留空则用仓库内 data/source.json 重建）
+        required: false
+        default: ''
+      period:
+        description: 期号（落盘文件名前缀）
+        required: false
+        default: '2026H2'
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: 重新生成数据与清单
+        env:
+          SOURCE_URL: ${{ inputs.source }}
+          PERIOD: ${{ inputs.period }}
+        run: node scripts/fetch.mjs
+      - name: 提交变化
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- data/; then
+            echo "数据无变化，跳过提交"
+            exit 0
+          fi
+          git add data/
+          git commit -m "chore(data): 同步 长门有C 番组数据 数据源"
+          git push

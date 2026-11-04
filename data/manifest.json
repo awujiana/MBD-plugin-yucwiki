@@ -1,0 +1,44 @@
+{
+  "formatVersion": 1,
+  "pluginId": "yucwiki-anime",
+  "displayName": "长门有C 番组数据",
+  "period": "2026H2",
+  "updatedAt": "2026-11-04",
+  "recordCount": 477,
+  "source": "仓库内种子 data/source.json",
+  "encoding": "utf-8",
+  "compression": "none",
+  "mergeKey": "Bangumi URL",
+  "shards": [
+    {
+      "name": "base",
+      "file": "2026H2.base.jsonlines",
+      "fields": [
+        "序列号",
+        "名称",
+        "别名",
+        "开播日期",
+        "开播季度",
+        "完播日",
+        "制作公司",
+        "集数",
+        "时长/分钟",
+        "制片国家",
+        "语言",
+        "类型",
+        "导演",
+        "音乐",
+        "人物设定",
+        "机械设定",
+        "原作",
+        "脚本",
+        "系列构成",
+        "在线播放平台",
+        "Bangumi URL"
+      ],
+      "bytes": 204446,
+      "sha256": "5415e987d61f41e0898cfa8e172a6a1ff70dfbe30702d4bf4a61dfa3fb2804ff",
+      "recordCount": 477
+    }
+  ]
+}
