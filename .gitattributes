@@ -1,0 +1,2 @@
+# 签名与数据清单按字节校验：固定 LF，避免 Windows CRLF 让 sha256 / checksum 失配
+* text=auto eol=lf
